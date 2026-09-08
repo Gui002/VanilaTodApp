@@ -73,6 +73,7 @@ function addTask(text, complete) {
     if (span.innerText.trim() != "") {
         if (checkbox.checked) {
             span.classList.add('done')
+            btnEditSave.classList.toggle("disabled")
         }
         newTask.append(checkbox, span, btnEditSave, btnDelCancel)
         container.appendChild(newTask)
