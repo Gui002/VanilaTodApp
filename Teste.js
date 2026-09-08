@@ -13,7 +13,7 @@ field.onkeydown = (event) => {
 
 
 
-if (localStorage.getItem('task') !== null ) {
+if (localStorage.getItem('task') !== null) {
 
     task = JSON.parse(localStorage.getItem('task'))
     task.forEach(element => {
@@ -36,25 +36,30 @@ function addTask(text, complete) {
     newTask.id = cont
     let checkbox = document.createElement('input')
     checkbox.type = "checkbox"
+    checkbox.checked = complete
     let span = document.createElement('span')
     span.innerText = content
     newTask.className = "task"
     let editing = false
-    
+
     if (text == undefined) {
 
         task.push(
             {
                 text: span.innerText,
-                done: d = checkbox.checked ? false : true
+                done: false
             }
 
-        )        
-        localStorage.setItem('task', JSON.stringify(task))
+        )
+        saveTask()
     }
 
     checkbox.onchange = () => {
-        span.classList.toggle('done')        
+        span.classList.toggle('done')
+
+        task[newTask.id].done = checkbox.checked
+        saveTask()
+
     }
 
 
@@ -72,7 +77,7 @@ function addTask(text, complete) {
         } else {
             newTask.remove()
             task.splice(+newTask.id, 1)
-            localStorage.setItem('task', JSON.stringify(task))
+            saveTask()
         }
     }
 
@@ -98,8 +103,12 @@ function addTask(text, complete) {
             btnEditSave.textContent = "EDIT"
             btnDelCancel.textContent = "DELETE"
             editing = false
-            localStorage.setItem('task', JSON.stringify(task))
+            saveTask()
         }
+    }
+
+    function    saveTask(){
+        localStorage.setItem('task', JSON.stringify(task))
     }
 }
 
