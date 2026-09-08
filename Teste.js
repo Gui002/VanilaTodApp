@@ -56,7 +56,14 @@ function addTask(text, complete) {
 
     checkbox.onchange = () => {
         span.classList.toggle('done')
-
+        if (!editing) {
+            btnEditSave.classList.toggle("disabled")
+        }
+        if (checkbox.checked) {
+            btnEditSave.disabled = true
+        } else {
+            btnEditSave.disabled = false
+        }
         task[newTask.id].done = checkbox.checked
         saveTask()
 
@@ -64,6 +71,9 @@ function addTask(text, complete) {
 
 
     if (span.innerText.trim() != "") {
+        if (checkbox.checked) {
+            span.classList.add('done')
+        }
         newTask.append(checkbox, span, btnEditSave, btnDelCancel)
         container.appendChild(newTask)
         cont++
@@ -92,6 +102,7 @@ function addTask(text, complete) {
             novoText.value = span.textContent
             span.replaceWith(novoText)
             novoText.focus()
+            checkbox.style.display = "none"
             btnEditSave.textContent = "SAVE"
             btnDelCancel.textContent = "CANCEL"
             console.log(newTask.id)
@@ -100,6 +111,7 @@ function addTask(text, complete) {
             span.textContent = novoText.value
             task[newTask.id].text = span.textContent
             novoText.replaceWith(span)
+            checkbox.style.display = "block"
             btnEditSave.textContent = "EDIT"
             btnDelCancel.textContent = "DELETE"
             editing = false
@@ -107,7 +119,7 @@ function addTask(text, complete) {
         }
     }
 
-    function    saveTask(){
+    function saveTask() {
         localStorage.setItem('task', JSON.stringify(task))
     }
 }
