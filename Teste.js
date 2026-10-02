@@ -68,8 +68,7 @@ function addTask(text, complete) {
         saveTask()
 
     }
-
-
+    console.log(typeof span.innerText)
     if (span.innerText.trim() != "") {
         if (checkbox.checked) {
             span.classList.add('done')
